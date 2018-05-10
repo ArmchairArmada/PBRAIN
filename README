@@ -1,0 +1,117 @@
+Nathan Moore
+December 13, 2015
+COS 331 - Project 4
+
+
+Description
+    Implemented the best-fit, first-fit, and worst-fit memory allocation
+    algorithms.  When memory is allocated a range of memory addresses will split
+    and as memory is freed neighboring ranges of memory will be merged together.
+    Fifty programs were created with random memory requirements are	queued up to
+    run.  As memory becomes available processes will be moved off of this queue,
+    their code will be loaded into a range of memory, and the process is put
+    onto the ready queue to be executed.  This continues until all processes
+    have completed their exeution.  In the end a report lists the average wait
+    and run times.  By the end, all of the memory will be dellocated and merged
+    to make a continguous block of 1000 words.
+    
+    The performance of each algorithm seems like they might be being affected by
+    the operating system "stops loading processes as soon as it his one whose
+    memory requirements cannot be satisfied" -- as we were instructed to do.  If
+    the operating system were allowed to continue scanning queued up processes
+    it might be able to find more programs that can fit into memory -- allowing
+    more processes to execute simultaniously and reducing the average wait time.
+    
+    The reason I bring this up is because worst-fit should have the worst wait
+    time, but it actually performs better than best-fit in my test (they are all
+    pretty close to each other).
+    
+    To see the final memory list state scroll up to above the CPU dump.
+
+
+Files
+	prg/
+		p.0-p.49          - PBrain12 programs with various memory requirements
+    src/
+        pb12.h            - Header for PBrain12 constants and error handling
+        pb12_alloc.h      - Header for memory allocation/deallocation algorithms
+        pb12_cpu.h        - Header for central processing unit
+        pb12_hw.h         - Header for hardware
+        pb12_inst.h       - Header for CPU instruction constants
+        pb12_mem.h        - Header for memory
+        pb12_os.h         - Header for operating system
+        pb12_pbrain.h     - Header for PBrain12 virtual machine
+        pb12_pcb.h        - Header for process control blocks
+        pb12_semaphore.h  - Header for semaphores
+        pb12_stats.h      - Header for process statistics
+        pb12_strings.h    - Header for string constants
+        pb12_traps.h      - Header for trap instructions
+        main.c            - Main entry point of program
+        pb12.c            - PBrain12 error handling
+        pb12_alloc.c      - Memory allocation/dallocation algorithms
+        pb12_cpu.c        - Central processing unit emulation
+        pb12_hw.c         - Hardware (not used)
+        pb12_mem.c        - Memory manipulation functions
+        pb12_os.c         - Operating system functionality
+        pb12_pbrain.c     - PBrain12 virtual machine
+        pb12_pcb.c        - Process control block management
+        pb12_semaphore.c  - Semaphore implementation
+        pb12_stats.c      - Process statistics reporting
+        pb12_strings.c    - String constatns
+        pb12_traps.c      - Trap instructions functions
+    Makefile              - Make file
+    output_best_fit.txt   - Output of running run_best_fit.sh
+    output_first_fit.txt  - Output of running run_first_fit.sh
+    output_worst_fit.txt  - Output of running run_worst_fit.sh
+    README                - This file
+    run_best_fit.sh       - Runs PBrain12 with options for best-fit allocation
+    run_first_fit.sh      - Runs PBrain12 with options for first-fit allocation
+    run_worst_fit.sh      - Runs PBrain12 with options for worst-fit allocation
+
+
+Making
+    make
+
+
+Running
+    ./run_best_fit.sh
+    ./run_first_fit.sh
+    ./run_worst_fit.sh
+	
+    or
+	
+    ./pbrain12 [options] files|dir
+
+    Options:
+     -h    This help information
+     -v    Verbose output
+     -m    Display messages
+     -t N  Set time step to N instructions
+     -ff   First fit allocation
+     -bf   Best fit allocation
+     -wf   Worst fit allocation
+     -d D  Load all programs that are in directory D
+	 
+    Example:
+        ./pbrain12 -v -m -ff -d prg
+
+
+Output
+    See output_best_fit.txt, output_first_fit.txt, and output_worst_fit.txt
+
+
+Summary of Results
+    Best Fit:
+        Average wait time: 6220.520000
+        Average non-zero wait time: 8886.457143
+        Average duration: 4487.360000
+
+    First Fit:
+        Average wait time: 6151.680000
+        Average non-zero wait time: 8788.114286
+        Average duration: 4593.860000
+
+    Worst Fit:
+        Average wait time: 6159.900000
+        Average non-zero wait time: 8799.857143
+        Average duration: 4523.340000
